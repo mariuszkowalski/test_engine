@@ -140,6 +140,7 @@ class Hero(BasicCharacter):
 
         self.hp_on_lvl = self.stats.endurance
         self.mp_on_lvl = self.stats.wisdom
+        self.carry_max = 5 * self.stats.strength
         self.skill_points_on_lvl = int(10 + 0.1 * self.stats.intelligence)
 
         self.unarmed_attack = int(0.5 * self.stats.strength + 0.25 * self.stats.agility)

@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+#
+# File with the references used ass arguments passed to the classes constructors.
+#
+
 
 CHARACTER = {
     'knight': {
@@ -41,7 +45,7 @@ ITEMS = {
             'pierce': 5,
             'value': 5,
             'quantity': 1,
-            'weight': 3,
+            'weight': 4,
         },
         'excellent short sword': {
             'name': 'excellent short sword',
@@ -50,7 +54,7 @@ ITEMS = {
             'pierce': 10,
             'value': 125,
             'quantity': 1,
-            'weight': 4,
+            'weight': 3,
         },
     },
     'axes': {
@@ -61,7 +65,7 @@ ITEMS = {
             'pierce': 15,
             'value': 50,
             'quantity': 1,
-            'weight': 3,
+            'weight': 9,
         }
     }
 }

@@ -207,9 +207,16 @@ class Window:
         self.give_crossbow_skill_button.place(x=482, y=92)
         self.give_crossbow_skill_button.bind('<Button-1>', self.debug_give_crossbow_skill)
 
-        self.generate_basic_weapons_button = ttk.Button(self.inventory_debug_tab, text='generate weapons')
+        #
+        # Inventory debug
+        #
+        self.generate_basic_weapons_button = ttk.Button(self.inventory_debug_tab, text='generate wps')
         self.generate_basic_weapons_button.place(x=2, y=2)
         self.generate_basic_weapons_button.bind('<Button-1>', self.debug_generate_weapons)
+
+        self.remove_basic_weapon_button = ttk.Button(self.inventory_debug_tab, text='remove b_a')
+        self.remove_basic_weapon_button.place(x=82, y=2)
+        self.remove_basic_weapon_button.bind('<Button-1>', self.debug_remove_weapon)
 
     #
     # Debug methods.
@@ -300,8 +307,14 @@ class Window:
         item_to_move = basic_weapons.pop(rnd(0, 2))
 
         self.hero.inventory.add_to_inventory(item_to_move)
+        print('Weight: {}, Items: {}'.format(self.hero.inventory.total_weight, self.hero.inventory.show_inventory()))
+        self.hero.inventory.show_inventory_all()
 
-        self.hero.inventory.show_inventory()
+    def debug_remove_weapon(self, event):
+        item = 'battle axe'
+
+        self.hero.inventory.remove_from_inventory(item)
+        print('Weight: {}, Items: {}'.format(self.hero.inventory.total_weight, self.hero.inventory.show_inventory()))
         self.hero.inventory.show_inventory_all()
 
     def update_hero_labels(self):
