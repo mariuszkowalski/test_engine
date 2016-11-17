@@ -5,7 +5,7 @@ from tkinter import ttk
 from tkinter.ttk import Notebook
 from random import randint as rnd
 from hero import Hero
-from items import BasicWeapon
+from items.basicweapon import BasicWeapon
 from references import CHARACTER, ITEMS
 
 
@@ -24,10 +24,10 @@ class Window:
         self.status_bar = ttk.Label(mainWidget, width=800, border=0, relief=SUNKEN, textvariable=self.status_bar_text)
         self.status_bar.place(x=0, y=580)
 
-        self.main_gui()
-        self.debug_gui()
+        self.build_main_gui()
+        self.build_debug_gui()
 
-    def main_gui(self):
+    def build_main_gui(self):
         #Initialize hero.
         self.hero = Hero('Bradrick', **CHARACTER['sorcerer'])
         print(sorted(self.hero.show_all().items(), key=str))
@@ -116,10 +116,7 @@ class Window:
         self.hero_crossbow_skill_label = ttk.Label(self.hero_frame, textvariable=self.hero_crossbow_skill_label_text)
         self.hero_crossbow_skill_label.place(x=2, y=362)
 
-    def debug_gui(self):
-        #self.debug_frame = ttk.LabelFrame(self.main_frame, width=590, height=200, text='Debug')
-        #self.debug_frame.place(x=204, y=2)
-
+    def build_debug_gui(self):
         self.note = Notebook(self.main_frame)
 
         self.basic_debug_tab = ttk.Frame(self.note, width=590, height=200)
@@ -128,6 +125,13 @@ class Window:
         self.note.add(self.basic_debug_tab, text='Basic Debug')
         self.note.add(self.inventory_debug_tab, text='Inventory Debug')
         self.note.place(x=204, y=10)
+
+        self.build_basic_debug_buttons()
+        self.build_stats_debug_buttons()
+        self.build_combat_skills_debug_buttons()
+        self.build_inventory_debug_buttons()
+
+    def build_basic_debug_buttons(self):
 
         self.give_xp_button = ttk.Button(self.basic_debug_tab, text='give xp')
         self.give_xp_button.place(x=2, y=2)
@@ -153,9 +157,7 @@ class Window:
         self.give_mp_button.place(x=242, y=32)
         self.give_mp_button.bind('<Button-1>', self.debug_give_mp)
 
-        #
-        # Stats Debug.
-        #
+    def build_stats_debug_buttons(self):
         self.give_strength_button = ttk.Button(self.basic_debug_tab, text='give S')
         self.give_strength_button.place(x=2, y=62)
         self.give_strength_button.bind('<Button-1>', self.debug_give_strength)
@@ -176,9 +178,7 @@ class Window:
         self.give_wisdom_button.place(x=322, y=62)
         self.give_wisdom_button.bind('<Button-1>', self.debug_give_wisdom)
 
-        #
-        # Skills debug.
-        #
+    def build_combat_skills_debug_buttons(self):
         self.give_sword_skill_button = ttk.Button(self.basic_debug_tab, text='give sword')
         self.give_sword_skill_button.place(x=2, y=92)
         self.give_sword_skill_button.bind('<Button-1>', self.debug_give_sword_skill)
@@ -207,9 +207,7 @@ class Window:
         self.give_crossbow_skill_button.place(x=482, y=92)
         self.give_crossbow_skill_button.bind('<Button-1>', self.debug_give_crossbow_skill)
 
-        #
-        # Inventory debug
-        #
+    def build_inventory_debug_buttons(self):
         self.generate_basic_weapons_button = ttk.Button(self.inventory_debug_tab, text='generate wps')
         self.generate_basic_weapons_button.place(x=2, y=2)
         self.generate_basic_weapons_button.bind('<Button-1>', self.debug_generate_weapons)
@@ -217,6 +215,15 @@ class Window:
         self.remove_basic_weapon_button = ttk.Button(self.inventory_debug_tab, text='remove b_a')
         self.remove_basic_weapon_button.place(x=82, y=2)
         self.remove_basic_weapon_button.bind('<Button-1>', self.debug_remove_weapon)
+
+        self.generate_pick_up_item = ttk.Button(self.inventory_debug_tab, text='pick up')
+        self.generate_pick_up_item.place(x=162, y=2)
+        self.generate_pick_up_item.bind('<Button-1>', self.debug_pick_up_item)
+
+        self.drop_item = ttk.Button(self.inventory_debug_tab, text='drop item')
+        self.drop_item.place(x=242, y=2)
+        self.drop_item.bind('<Button-1>', self.debug_drop_item)
+
 
     #
     # Debug methods.
@@ -314,6 +321,26 @@ class Window:
         item = 'battle axe'
 
         self.hero.inventory.remove_from_inventory(item)
+        print('Weight: {}, Items: {}'.format(self.hero.inventory.total_weight, self.hero.inventory.show_inventory()))
+        self.hero.inventory.show_inventory_all()
+
+    def debug_pick_up_item(self, event):
+        basic_weapons = [
+            BasicWeapon(**ITEMS['swords']['rusty short sword']),
+            BasicWeapon(**ITEMS['swords']['excellent short sword']),
+            BasicWeapon(**ITEMS['axes']['battle axe'])
+        ]
+
+        item_to_move = basic_weapons.pop(rnd(0, 2))
+
+        self.hero.pickup_item(item_to_move)
+        print('Weight: {}, Items: {}'.format(self.hero.inventory.total_weight, self.hero.inventory.show_inventory()))
+        self.hero.inventory.show_inventory_all()
+
+    def debug_drop_item(self, event):
+        item = 'battle axe'
+
+        self.hero.drop_item(item)
         print('Weight: {}, Items: {}'.format(self.hero.inventory.total_weight, self.hero.inventory.show_inventory()))
         self.hero.inventory.show_inventory_all()
 

@@ -131,6 +131,32 @@ class Hero(BasicCharacter):
             self.skill_points -= 1
             self._calculate_traits()
 
+    def pickup_item(self, item_instance):
+        '''
+        This method checks what the total weight of the inventory would be after
+        adding another item. If the mass would be less than carry max of the character
+        the item is added to the inventory list.
+
+        Args:
+              item_instance: obj - valid instance of the class derived from the BasicItem class.
+        '''
+
+        future_weight = self.inventory.total_weight + item_instance.weight
+
+        if future_weight < self.carry_max:
+            self.inventory.add_to_inventory(item_instance)
+
+
+    def drop_item(self, item_name):
+        '''
+        This method removes the item from the inventory.
+        There is no check against target inventory cary max.
+
+        Args:
+            item_name: str - name of the item to drop.
+        '''
+
+        self.inventory.remove_from_inventory(item_name)
 
     def _calculate_traits(self):
         '''
