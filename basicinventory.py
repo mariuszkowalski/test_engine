@@ -9,6 +9,7 @@ class BasicInventory:
         '''
 
         self.all = []
+        self.switch_buffer = []
 
     def add_to_inventory(self, current_item):
         '''
