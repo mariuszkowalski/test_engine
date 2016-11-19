@@ -4,7 +4,7 @@
 from basicequipment import BasicEquipment
 from characterinventory import CharacterInventory
 from basicstats import BasicStats
-from basicskills import BasicCombatSkills
+from basiccombatskills import BasicCombatSkills
 
 
 class BasicCharacter:

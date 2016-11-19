@@ -6,7 +6,7 @@ from tkinter.ttk import Notebook
 from random import randint as rnd
 from hero import Hero
 from items.basicweapon import BasicWeapon
-from references import CHARACTER, ITEMS
+from references import CHARACTER, SWORDS, AXES
 
 
 class Window:
@@ -119,8 +119,8 @@ class Window:
     def build_debug_gui(self):
         self.note = Notebook(self.main_frame)
 
-        self.basic_debug_tab = ttk.Frame(self.note, width=590, height=200)
-        self.inventory_debug_tab = ttk.Frame(self.note, width=590, height=200)
+        self.basic_debug_tab = ttk.Frame(self.note, width=590, height=535)
+        self.inventory_debug_tab = ttk.Frame(self.note, width=590, height=535)
 
         self.note.add(self.basic_debug_tab, text='Basic Debug')
         self.note.add(self.inventory_debug_tab, text='Inventory Debug')
@@ -306,9 +306,9 @@ class Window:
 
     def debug_generate_weapons(self, event):
         basic_weapons = [
-            BasicWeapon(**ITEMS['swords']['rusty short sword']),
-            BasicWeapon(**ITEMS['swords']['excellent short sword']),
-            BasicWeapon(**ITEMS['axes']['battle axe'])
+            BasicWeapon(**SWORDS['rusty short sword']),
+            BasicWeapon(**SWORDS['excellent short sword']),
+            BasicWeapon(**AXES['axes']['battle axe'])
         ]
 
         item_to_move = basic_weapons.pop(rnd(0, 2))
@@ -326,9 +326,9 @@ class Window:
 
     def debug_pick_up_item(self, event):
         basic_weapons = [
-            BasicWeapon(**ITEMS['swords']['rusty short sword']),
-            BasicWeapon(**ITEMS['swords']['excellent short sword']),
-            BasicWeapon(**ITEMS['axes']['battle axe'])
+            BasicWeapon(**SWORDS['rusty short sword']),
+            BasicWeapon(**SWORDS['excellent short sword']),
+            BasicWeapon(**AXES['battle axe'])
         ]
 
         item_to_move = basic_weapons.pop(rnd(0, 2))
