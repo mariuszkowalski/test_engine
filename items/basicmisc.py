@@ -1,4 +1,7 @@
+#!/usr/bin/env python3
 
+
+from items.basicitem import BasicItem
 
 
 class BasicMisc(BasicItem):

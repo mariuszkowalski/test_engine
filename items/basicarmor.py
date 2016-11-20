@@ -33,3 +33,6 @@ class BasicArmor(BasicItem):
         self.family = kwargs.get('family', 'torso')
         self.damage_protection = kwargs.get('damage_protection', 10)
         self.damage_disperse = kwargs.get('damage_disperse', 10)
+
+    def show_stats(self):
+        return vars(self)

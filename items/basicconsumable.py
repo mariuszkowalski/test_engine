@@ -10,3 +10,6 @@ class BasicConsumable(BasicItem):
         super().__init__(**kwargs)
         self.family = kwargs.get('family', 'potions')
         self.effect = kwargs.get('effect', ('instant', 100))
+
+    def show_stats(self):
+        return vars(self)

@@ -6,8 +6,11 @@ from tkinter.ttk import Notebook
 from random import randint as rnd
 from hero import Hero
 from items.basicweapon import BasicWeapon
-from references import CHARACTER, SWORDS, AXES
-
+from items.basicarmor import BasicArmor
+from items.basicammo import BasicAmmo
+from references import CHARACTER, SWORDS, AXES, BOWS, AMMO, ARMORS_HEAD, ARMORS_TORSO, ARMORS_BACK, ARMORS_ARMS,\
+    ARMORS_LEGS, ARMORS_FEET
+import os
 
 class Window:
     '''
@@ -208,6 +211,8 @@ class Window:
         self.give_crossbow_skill_button.bind('<Button-1>', self.debug_give_crossbow_skill)
 
     def build_inventory_debug_buttons(self):
+        self._build_inventory_gui_layout()
+
         self.generate_basic_weapons_button = ttk.Button(self.inventory_debug_tab, text='generate wps')
         self.generate_basic_weapons_button.place(x=2, y=2)
         self.generate_basic_weapons_button.bind('<Button-1>', self.debug_generate_weapons)
@@ -216,17 +221,104 @@ class Window:
         self.remove_basic_weapon_button.place(x=82, y=2)
         self.remove_basic_weapon_button.bind('<Button-1>', self.debug_remove_weapon)
 
-        self.generate_pick_up_item = ttk.Button(self.inventory_debug_tab, text='pick up')
-        self.generate_pick_up_item.place(x=162, y=2)
-        self.generate_pick_up_item.bind('<Button-1>', self.debug_pick_up_item)
+        self.generate_pick_up_item_button = ttk.Button(self.inventory_debug_tab, text='pick up')
+        self.generate_pick_up_item_button.place(x=162, y=2)
+        self.generate_pick_up_item_button.bind('<Button-1>', self.debug_pick_up_item)
 
-        self.drop_item = ttk.Button(self.inventory_debug_tab, text='drop item')
-        self.drop_item.place(x=242, y=2)
-        self.drop_item.bind('<Button-1>', self.debug_drop_item)
+        self.drop_item_button = ttk.Button(self.inventory_debug_tab, text='drop item')
+        self.drop_item_button.place(x=242, y=2)
+        self.drop_item_button.bind('<Button-1>', self.debug_drop_item)
+
+        self.create_item_set_button = ttk.Button(self.inventory_debug_tab, text='create set')
+        self.create_item_set_button.place(x=322, y=2)
+        self.create_item_set_button.bind('<Button-1>', self.debug_create_item_set)
+
+    def _build_inventory_gui_layout(self):
+        self.empty_slot_image = PhotoImage(file='items/images/empty_slot.png')
+
+        self.equipment_frame = ttk.LabelFrame(self.inventory_debug_tab, width=190, height=330, text='Equipment')
+        self.equipment_frame.place(x=5, y=200)
+
+        self.inventory_frame = ttk.LabelFrame(self.inventory_debug_tab, width=385, height=200, text='Inventory')
+        self.inventory_frame.place(x=200, y=200)
+
+        self.ground_frame = ttk.LabelFrame(self.inventory_debug_tab, width=385, height=120, text='Ground')
+        self.ground_frame.place(x=200, y=400)
+
+        #
+        # Equipment slots.
+        #
+        self.head_label_text = ttk.Label(self.equipment_frame, text='Head:')
+        self.head_label_text.place(x=5, y=5)
+        self.head_label_image = Label(self.equipment_frame,
+            image=self.empty_slot_image,
+            borderwidth=0,
+            highlightthickness=0)
+        self.head_label_image.place(x=70, y=5)
+
+        self.torso_label_text = ttk.Label(self.equipment_frame, text='Body:')
+        self.torso_label_text.place(x=5, y=40)
+        self.torso_label_image = Label(self.equipment_frame,
+            image=self.empty_slot_image,
+            borderwidth=0,
+            highlightthickness=0)
+        self.torso_label_image.place(x=70, y=40)
+
+        self.back_label_text = ttk.Label(self.equipment_frame, text='Back:')
+        self.back_label_text.place(x=5, y=75)
+        self.back_label_image = Label(self.equipment_frame,
+                                       image=self.empty_slot_image,
+                                       borderwidth=0,
+                                       highlightthickness=0)
+        self.back_label_image.place(x=70, y=75)
+
+        self.arms_label_text = ttk.Label(self.equipment_frame, text='Arms:')
+        self.arms_label_text.place(x=5, y=110)
+        self.arms_label_image = Label(self.equipment_frame,
+            image=self.empty_slot_image,
+            borderwidth=0,
+            highlightthickness=0)
+        self.arms_label_image.place(x=70, y=110)
 
 
+        self.legs_label_text = ttk.Label(self.equipment_frame, text='Legs:')
+        self.legs_label_text.place(x=5, y=145)
+        self.legs_label_image = Label(self.equipment_frame,
+            image=self.empty_slot_image,
+            borderwidth=0,
+            highlightthickness=0)
+        self.legs_label_image.place(x=70, y=145)
+
+
+        self.feet_label_text = ttk.Label(self.equipment_frame, text='Feet:')
+        self.feet_label_text.place(x=5, y=180)
+        self.feet_label_image = Label(self.equipment_frame,
+            image=self.empty_slot_image,
+            borderwidth=0,
+            highlightthickness=0)
+        self.feet_label_image.place(x=70, y=180)
+
+        #Create inventory grid. Using current tile size 32x32 the inventory grid is 10x5.
+        for i in range(50):
+            rows_formula = 34 * (i // 10)
+            columns_formula = 34 * (i % 10)
+
+            if i < len(self.hero.inventory.all):
+                current_image = '{}.png'.format(self.hero.inventory.all[i].name).replace(' ', '_')
+                self.inventory_label_image = Label(self.inventory_frame,
+                    image=PhotoImage(file=os.path.join('items/images', current_image).replace('\\', '/')),
+                    borderwidth=0,
+                    highlightthickness=0)
+                self.inventory_label_image.place(x=columns_formula, y=rows_formula)
+
+            elif i >= len(self.hero.inventory.all):
+                self.inventory_label_image = Label(self.inventory_frame,
+                    image=self.empty_slot_image,
+                    borderwidth=0,
+                    highlightthickness=0)
+                self.inventory_label_image.place(x=columns_formula, y=rows_formula)
     #
-    # Debug methods.
+    # Debug general methods.
     #
     def debug_give_xp(self, event):
         debug_value = rnd(1, 10) * 1000
@@ -256,6 +348,9 @@ class Window:
         self.hero.give_mp(12)
         self.update_hero_labels()
 
+    #
+    # Debug stat methods.
+    #
     def debug_give_strength(self, event):
         self.hero.increase_stat('strength')
         self.update_hero_labels()
@@ -276,6 +371,9 @@ class Window:
         self.hero.increase_stat('wisdom')
         self.update_hero_labels()
 
+    #
+    # Debug skill methods.
+    #
     def debug_give_sword_skill(self, event):
         self.hero.increase_combat_skill('sword')
         self.update_hero_labels()
@@ -304,11 +402,14 @@ class Window:
         self.hero.increase_combat_skill('crossbow')
         self.update_hero_labels()
 
+    #
+    # Debug inventory methods.
+    #
     def debug_generate_weapons(self, event):
         basic_weapons = [
             BasicWeapon(**SWORDS['rusty short sword']),
             BasicWeapon(**SWORDS['excellent short sword']),
-            BasicWeapon(**AXES['axes']['battle axe'])
+            BasicWeapon(**AXES['battle axe'])
         ]
 
         item_to_move = basic_weapons.pop(rnd(0, 2))
@@ -344,6 +445,30 @@ class Window:
         print('Weight: {}, Items: {}'.format(self.hero.inventory.total_weight, self.hero.inventory.show_inventory()))
         self.hero.inventory.show_inventory_all()
 
+    def debug_create_item_set(self, event):
+        item_set = [
+            BasicWeapon(**SWORDS['rusty short sword']),
+            BasicWeapon(**AXES['battle axe']),
+            BasicWeapon(**BOWS['short bow']),
+            BasicArmor(**ARMORS_HEAD['leather cap']),
+            BasicArmor(**ARMORS_TORSO['leather armor']),
+            BasicArmor(**ARMORS_BACK['cloak']),
+            BasicArmor(**ARMORS_ARMS['leather gloves']),
+            BasicArmor(**ARMORS_LEGS['thick trousers']),
+            BasicArmor(**ARMORS_FEET['hard boots']),
+            BasicAmmo(**AMMO['wooden arrow'])
+        ]
+
+        for item in item_set:
+            self.hero.pickup_item(item)
+        print('Weight: {}, Items: {}'.format(self.hero.inventory.total_weight, self.hero.inventory.show_inventory()))
+        self.hero.inventory.show_inventory_all()
+
+        self.inventory_debug_tab.update()
+
+    #
+    # Update important hero labels.
+    #
     def update_hero_labels(self):
         self.hero_name_label_text.set('Name: {}'.format(self.hero.name))
         self.hero_hp_label_text.set('HP: {}/{}'.format(self.hero.current_hp, self.hero.max_hp))

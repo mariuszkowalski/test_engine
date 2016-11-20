@@ -82,6 +82,7 @@ BOWS = {
     'short bow': {
         'name': 'short bow',
         'family': 'bow',
+        'hands': 'two',
         'damage': (4, 8),
         'pierce': 30,
         'value': 25,
@@ -89,6 +90,19 @@ BOWS = {
         'weight': 2,
     }
 }
+
+AMMO = {
+    'wooden arrow': {
+        'name': 'wooden arrow',
+        'family': 'arrow',
+        'damage_bonus': (1, 2),
+        'pierce': 5,
+        'value': 1,
+        'quantity': 10,
+        'weight': 0
+    }
+}
+
 #
 # Items armors
 #

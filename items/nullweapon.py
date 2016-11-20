@@ -10,6 +10,7 @@ class NullWeapon(BasicWeapon):
         zero = {
             'name': 'No Weapon',
             'family': '',
+            'hands': 'one',
             'damage': (0, 0),
             'pierce': 0,
             'value': 0,

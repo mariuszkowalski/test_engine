@@ -41,8 +41,8 @@ class CharacterInventory(BasicInventory):
             for item in self.all:
 
                 if item.name == current_item.name:
-                    item.quantity += 1
-                    self.total_weight += current_item.weight
+                    item.quantity += current_item.quantity
+                    self.total_weight += current_item.weight * current_item.quantity
                     increased_quantity = True
 
             if not increased_quantity:

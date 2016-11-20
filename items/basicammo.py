@@ -32,3 +32,6 @@ class BasicAmmo(BasicItem):
         self.family = kwargs.get('family', 'arrow')
         self.damage_bonus = kwargs.get('damage_bonus', (1, 2))
         self.pierce = kwargs.get('pierce', 0)
+
+    def show_stats(self):
+        return vars(self)
