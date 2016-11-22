@@ -2,6 +2,7 @@
 
 from tkinter import *
 from tkinter import ttk
+from slot import Slot
 from tkinter.ttk import Notebook
 from random import randint as rnd
 from hero import Hero
@@ -234,7 +235,20 @@ class Window:
         self.create_item_set_button.bind('<Button-1>', self.debug_create_item_set)
 
     def _build_inventory_gui_layout(self):
-        self.empty_slot_image = PhotoImage(file='items/images/empty_slot.png')
+        # This could be built automatically.
+        self.item_images = {
+            'empty_slot': PhotoImage(file='items/images/empty_slot.png'),
+            'battle_axe': PhotoImage(file='items/images/battle_axe.png'),
+            'cloak': PhotoImage(file='items/images/cloak.png'),
+            'hard_boots': PhotoImage(file='items/images/hard_boots.png'),
+            'leather_armor': PhotoImage(file='items/images/leather_armor.png'),
+            'leather_cap': PhotoImage(file='items/images/leather_cap.png'),
+            'leather_gloves': PhotoImage(file='items/images/leather_gloves.png'),
+            'rusty_short_sword': PhotoImage(file='items/images/rusty_short_sword.png'),
+            'short_bow': PhotoImage(file='items/images/short_bow.png'),
+            'thick_trousers': PhotoImage(file='items/images/thick_trousers.png'),
+            'wooden_arrow': PhotoImage(file='items/images/wooden_arrow.png')
+        }
 
         self.equipment_frame = ttk.LabelFrame(self.inventory_debug_tab, width=190, height=330, text='Equipment')
         self.equipment_frame.place(x=5, y=200)
@@ -248,75 +262,108 @@ class Window:
         #
         # Equipment slots.
         #
+        self.inventory_slot_grid = {}
+
         self.head_label_text = ttk.Label(self.equipment_frame, text='Head:')
         self.head_label_text.place(x=5, y=5)
-        self.head_label_image = Label(self.equipment_frame,
-            image=self.empty_slot_image,
+        self.head_label_image = Slot(self.equipment_frame,
+            slot_type='head',
+            item_name='None',
+            image=self.item_images['empty_slot'],
             borderwidth=0,
             highlightthickness=0)
         self.head_label_image.place(x=70, y=5)
 
         self.torso_label_text = ttk.Label(self.equipment_frame, text='Body:')
         self.torso_label_text.place(x=5, y=40)
-        self.torso_label_image = Label(self.equipment_frame,
-            image=self.empty_slot_image,
+        self.torso_label_image = Slot(self.equipment_frame,
+            slot_type='body',
+            item_name='None',
+            image=self.item_images['empty_slot'],
             borderwidth=0,
             highlightthickness=0)
         self.torso_label_image.place(x=70, y=40)
 
         self.back_label_text = ttk.Label(self.equipment_frame, text='Back:')
         self.back_label_text.place(x=5, y=75)
-        self.back_label_image = Label(self.equipment_frame,
-                                       image=self.empty_slot_image,
-                                       borderwidth=0,
-                                       highlightthickness=0)
+        self.back_label_image = Slot(self.equipment_frame,
+            slot_type='back',
+            item_name='None',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0)
         self.back_label_image.place(x=70, y=75)
 
         self.arms_label_text = ttk.Label(self.equipment_frame, text='Arms:')
         self.arms_label_text.place(x=5, y=110)
-        self.arms_label_image = Label(self.equipment_frame,
-            image=self.empty_slot_image,
+        self.arms_label_image = Slot(self.equipment_frame,
+            slot_type='arms',
+            item_name='None',
+            image=self.item_images['empty_slot'],
             borderwidth=0,
             highlightthickness=0)
         self.arms_label_image.place(x=70, y=110)
 
-
         self.legs_label_text = ttk.Label(self.equipment_frame, text='Legs:')
         self.legs_label_text.place(x=5, y=145)
-        self.legs_label_image = Label(self.equipment_frame,
-            image=self.empty_slot_image,
+        self.legs_label_image = Slot(self.equipment_frame,
+            slot_type='legs',
+            item_name='None',
+            image=self.item_images['empty_slot'],
             borderwidth=0,
             highlightthickness=0)
         self.legs_label_image.place(x=70, y=145)
 
-
         self.feet_label_text = ttk.Label(self.equipment_frame, text='Feet:')
         self.feet_label_text.place(x=5, y=180)
-        self.feet_label_image = Label(self.equipment_frame,
-            image=self.empty_slot_image,
+        self.feet_label_image = Slot(self.equipment_frame,
+            slot_type='feet',
+            item_name='None',
+            image=self.item_images['empty_slot'],
             borderwidth=0,
             highlightthickness=0)
         self.feet_label_image.place(x=70, y=180)
 
+        #
         #Create inventory grid. Using current tile size 32x32 the inventory grid is 10x5.
+        #
         for i in range(50):
-            rows_formula = 34 * (i // 10)
-            columns_formula = 34 * (i % 10)
+            rows_formula = 35 * (i // 10)
+            columns_formula = 35 * (i % 10)
 
+            self.inventory_label_image = Slot(self.inventory_frame,
+                number=i,
+                slot_type='inventory',
+                item_name='None',
+                image=self.item_images['empty_slot'],
+                borderwidth=0,
+                highlightthickness=0)
+            self.inventory_label_image.place(x=columns_formula, y=rows_formula)
+            self.inventory_label_image.bind('<Button-1>', self.slot_pressed)
+            self.inventory_slot_grid[i] = self.inventory_label_image
+
+    def _update_inventory_slots(self):
+        for i in range(len(self.inventory_slot_grid)):
             if i < len(self.hero.inventory.all):
-                current_image = '{}.png'.format(self.hero.inventory.all[i].name).replace(' ', '_')
-                self.inventory_label_image = Label(self.inventory_frame,
-                    image=PhotoImage(file=os.path.join('items/images', current_image).replace('\\', '/')),
-                    borderwidth=0,
-                    highlightthickness=0)
-                self.inventory_label_image.place(x=columns_formula, y=rows_formula)
 
-            elif i >= len(self.hero.inventory.all):
-                self.inventory_label_image = Label(self.inventory_frame,
-                    image=self.empty_slot_image,
-                    borderwidth=0,
-                    highlightthickness=0)
-                self.inventory_label_image.place(x=columns_formula, y=rows_formula)
+                current_image = (self.hero.inventory.all[i].name).replace(' ', '_')
+                item_name = self.hero.inventory.all[i].name
+                self.inventory_slot_grid[i].configure(image=self.item_images[current_image])
+                self.inventory_slot_grid[i].item_name = item_name
+
+    def _update_equipment_slots(self):
+        pass
+
+    def slot_pressed(self, event):
+        #
+        # The last bind is active.
+        #
+        if self.inventory_slot_grid[0] == self.inventory_slot_grid[1]:
+            print('what went wrong')
+        else:
+            print(vars(self.inventory_slot_grid[0]))
+            print(vars(self.inventory_slot_grid[1]))
+
     #
     # Debug general methods.
     #
@@ -464,7 +511,7 @@ class Window:
         print('Weight: {}, Items: {}'.format(self.hero.inventory.total_weight, self.hero.inventory.show_inventory()))
         self.hero.inventory.show_inventory_all()
 
-        self.inventory_debug_tab.update()
+        self._update_inventory_slots()
 
     #
     # Update important hero labels.
