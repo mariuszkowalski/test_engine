@@ -262,107 +262,714 @@ class Window:
         #
         # Equipment slots.
         #
-        self.inventory_slot_grid = {}
+        self.inventory_slots = []
+        self.inventory_slot_xy = []
 
         self.head_label_text = ttk.Label(self.equipment_frame, text='Head:')
         self.head_label_text.place(x=5, y=5)
-        self.head_label_image = Slot(self.equipment_frame,
+        self.head_label_image = Slot(
+            self.equipment_frame,
             slot_type='head',
             item_name='None',
             image=self.item_images['empty_slot'],
             borderwidth=0,
-            highlightthickness=0)
+            highlightthickness=0
+        )
         self.head_label_image.place(x=70, y=5)
 
         self.torso_label_text = ttk.Label(self.equipment_frame, text='Body:')
         self.torso_label_text.place(x=5, y=40)
-        self.torso_label_image = Slot(self.equipment_frame,
+        self.torso_label_image = Slot(
+            self.equipment_frame,
             slot_type='body',
             item_name='None',
             image=self.item_images['empty_slot'],
             borderwidth=0,
-            highlightthickness=0)
+            highlightthickness=0
+        )
         self.torso_label_image.place(x=70, y=40)
 
         self.back_label_text = ttk.Label(self.equipment_frame, text='Back:')
         self.back_label_text.place(x=5, y=75)
-        self.back_label_image = Slot(self.equipment_frame,
+        self.back_label_image = Slot(
+            self.equipment_frame,
             slot_type='back',
             item_name='None',
             image=self.item_images['empty_slot'],
             borderwidth=0,
-            highlightthickness=0)
+            highlightthickness=0
+        )
         self.back_label_image.place(x=70, y=75)
 
         self.arms_label_text = ttk.Label(self.equipment_frame, text='Arms:')
         self.arms_label_text.place(x=5, y=110)
-        self.arms_label_image = Slot(self.equipment_frame,
+        self.arms_label_image = Slot(
+            self.equipment_frame,
             slot_type='arms',
             item_name='None',
             image=self.item_images['empty_slot'],
             borderwidth=0,
-            highlightthickness=0)
+            highlightthickness=0
+        )
         self.arms_label_image.place(x=70, y=110)
 
         self.legs_label_text = ttk.Label(self.equipment_frame, text='Legs:')
         self.legs_label_text.place(x=5, y=145)
-        self.legs_label_image = Slot(self.equipment_frame,
+        self.legs_label_image = Slot(
+            self.equipment_frame,
             slot_type='legs',
             item_name='None',
             image=self.item_images['empty_slot'],
             borderwidth=0,
-            highlightthickness=0)
+            highlightthickness=0
+        )
         self.legs_label_image.place(x=70, y=145)
 
         self.feet_label_text = ttk.Label(self.equipment_frame, text='Feet:')
         self.feet_label_text.place(x=5, y=180)
-        self.feet_label_image = Slot(self.equipment_frame,
+        self.feet_label_image = Slot(
+            self.equipment_frame,
             slot_type='feet',
             item_name='None',
             image=self.item_images['empty_slot'],
             borderwidth=0,
-            highlightthickness=0)
+            highlightthickness=0
+        )
         self.feet_label_image.place(x=70, y=180)
 
         #
         #Create inventory grid. Using current tile size 32x32 the inventory grid is 10x5.
         #
         for i in range(50):
-            rows_formula = 35 * (i // 10)
-            columns_formula = 35 * (i % 10)
+            rows_formula = 35 * (i // 10) #Y
+            columns_formula = 35 * (i % 10) #X
+            xy = [columns_formula, rows_formula]
+            self.inventory_slot_xy.append(xy)
 
-            self.inventory_label_image = Slot(self.inventory_frame,
-                number=i,
-                slot_type='inventory',
-                item_name='None',
-                image=self.item_images['empty_slot'],
-                borderwidth=0,
-                highlightthickness=0)
-            self.inventory_label_image.place(x=columns_formula, y=rows_formula)
-            self.inventory_label_image.bind('<Button-1>', self.slot_pressed)
-            self.inventory_slot_grid[i] = self.inventory_label_image
+        self.inventory_slot_0 = Slot(
+            self.inventory_frame,
+            number=0,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_0.place(x=self.inventory_slot_xy[0][0], y=self.inventory_slot_xy[0][1])
+        self.inventory_slot_0.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_0)
+
+        self.inventory_slot_1 = Slot(
+            self.inventory_frame,
+            number=1,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_1.place(x=self.inventory_slot_xy[1][0], y=self.inventory_slot_xy[1][1])
+        self.inventory_slot_1.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_1)
+
+        self.inventory_slot_2 = Slot(
+            self.inventory_frame,
+            number=2,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_2.place(x=self.inventory_slot_xy[2][0], y=self.inventory_slot_xy[2][1])
+        self.inventory_slot_2.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_2)
+
+        self.inventory_slot_3 = Slot(
+            self.inventory_frame,
+            number=3,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_3.place(x=self.inventory_slot_xy[3][0], y=self.inventory_slot_xy[3][1])
+        self.inventory_slot_3.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_3)
+
+        self.inventory_slot_4 = Slot(
+            self.inventory_frame,
+            number=4,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_4.place(x=self.inventory_slot_xy[4][0], y=self.inventory_slot_xy[4][1])
+        self.inventory_slot_4.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_4)
+
+        self.inventory_slot_5 = Slot(
+            self.inventory_frame,
+            number=5,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_5.place(x=self.inventory_slot_xy[5][0], y=self.inventory_slot_xy[5][1])
+        self.inventory_slot_5.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_5)
+
+        self.inventory_slot_6 = Slot(
+            self.inventory_frame,
+            number=6,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_6.place(x=self.inventory_slot_xy[6][0], y=self.inventory_slot_xy[6][1])
+        self.inventory_slot_6.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_6)
+
+        self.inventory_slot_7 = Slot(
+            self.inventory_frame,
+            number=7,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_7.place(x=self.inventory_slot_xy[7][0], y=self.inventory_slot_xy[7][1])
+        self.inventory_slot_7.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_7)
+
+        self.inventory_slot_8 = Slot(
+            self.inventory_frame,
+            number=8,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_8.place(x=self.inventory_slot_xy[8][0], y=self.inventory_slot_xy[8][1])
+        self.inventory_slot_8.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_8)
+
+        self.inventory_slot_9 = Slot(
+            self.inventory_frame,
+            number=9,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_9.place(x=self.inventory_slot_xy[9][0], y=self.inventory_slot_xy[9][1])
+        self.inventory_slot_9.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_9)
+
+        self.inventory_slot_10 = Slot(
+            self.inventory_frame,
+            number=10,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_10.place(x=self.inventory_slot_xy[10][0], y=self.inventory_slot_xy[10][1])
+        self.inventory_slot_10.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_10)
+
+        self.inventory_slot_11 = Slot(
+            self.inventory_frame,
+            number=11,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_11.place(x=self.inventory_slot_xy[11][0], y=self.inventory_slot_xy[11][1])
+        self.inventory_slot_11.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_11)
+
+        self.inventory_slot_12 = Slot(
+            self.inventory_frame,
+            number=12,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_12.place(x=self.inventory_slot_xy[12][0], y=self.inventory_slot_xy[12][1])
+        self.inventory_slot_12.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_12)
+
+        self.inventory_slot_13 = Slot(
+            self.inventory_frame,
+            number=13,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_13.place(x=self.inventory_slot_xy[13][0], y=self.inventory_slot_xy[13][1])
+        self.inventory_slot_13.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_13)
+
+        self.inventory_slot_14 = Slot(
+            self.inventory_frame,
+            number=14,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_14.place(x=self.inventory_slot_xy[14][0], y=self.inventory_slot_xy[14][1])
+        self.inventory_slot_14.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_14)
+
+        self.inventory_slot_15 = Slot(
+            self.inventory_frame,
+            number=15,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_15.place(x=self.inventory_slot_xy[15][0], y=self.inventory_slot_xy[15][1])
+        self.inventory_slot_15.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_15)
+
+        self.inventory_slot_16 = Slot(
+            self.inventory_frame,
+            number=16,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_16.place(x=self.inventory_slot_xy[16][0], y=self.inventory_slot_xy[16][1])
+        self.inventory_slot_16.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_16)
+
+        self.inventory_slot_17 = Slot(
+            self.inventory_frame,
+            number=17,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_17.place(x=self.inventory_slot_xy[17][0], y=self.inventory_slot_xy[17][1])
+        self.inventory_slot_17.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_17)
+
+        self.inventory_slot_18 = Slot(
+            self.inventory_frame,
+            number=18,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_18.place(x=self.inventory_slot_xy[18][0], y=self.inventory_slot_xy[18][1])
+        self.inventory_slot_18.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_18)
+
+        self.inventory_slot_19 = Slot(
+            self.inventory_frame,
+            number=19,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_19.place(x=self.inventory_slot_xy[19][0], y=self.inventory_slot_xy[19][1])
+        self.inventory_slot_19.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_19)
+
+        self.inventory_slot_20 = Slot(
+            self.inventory_frame,
+            number=20,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_20.place(x=self.inventory_slot_xy[20][0], y=self.inventory_slot_xy[20][1])
+        self.inventory_slot_20.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_20)
+
+        self.inventory_slot_21 = Slot(
+            self.inventory_frame,
+            number=21,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_21.place(x=self.inventory_slot_xy[21][0], y=self.inventory_slot_xy[21][1])
+        self.inventory_slot_21.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_21)
+
+        self.inventory_slot_22 = Slot(
+            self.inventory_frame,
+            number=22,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_22.place(x=self.inventory_slot_xy[22][0], y=self.inventory_slot_xy[22][1])
+        self.inventory_slot_22.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_22)
+
+        self.inventory_slot_23 = Slot(
+            self.inventory_frame,
+            number=23,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_23.place(x=self.inventory_slot_xy[23][0], y=self.inventory_slot_xy[23][1])
+        self.inventory_slot_23.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_23)
+
+        self.inventory_slot_24 = Slot(
+            self.inventory_frame,
+            number=24,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_24.place(x=self.inventory_slot_xy[24][0], y=self.inventory_slot_xy[24][1])
+        self.inventory_slot_24.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_24)
+
+        self.inventory_slot_25 = Slot(
+            self.inventory_frame,
+            number=25,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_25.place(x=self.inventory_slot_xy[25][0], y=self.inventory_slot_xy[25][1])
+        self.inventory_slot_25.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_25)
+
+        self.inventory_slot_26 = Slot(
+            self.inventory_frame,
+            number=26,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_26.place(x=self.inventory_slot_xy[26][0], y=self.inventory_slot_xy[26][1])
+        self.inventory_slot_26.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_26)
+
+        self.inventory_slot_27 = Slot(
+            self.inventory_frame,
+            number=27,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_27.place(x=self.inventory_slot_xy[27][0], y=self.inventory_slot_xy[27][1])
+        self.inventory_slot_27.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_27)
+
+        self.inventory_slot_28 = Slot(
+            self.inventory_frame,
+            number=28,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_28.place(x=self.inventory_slot_xy[28][0], y=self.inventory_slot_xy[28][1])
+        self.inventory_slot_28.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_28)
+
+        self.inventory_slot_29 = Slot(
+            self.inventory_frame,
+            number=29,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_29.place(x=self.inventory_slot_xy[29][0], y=self.inventory_slot_xy[29][1])
+        self.inventory_slot_29.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_29)
+
+        self.inventory_slot_30 = Slot(
+            self.inventory_frame,
+            number=30,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_30.place(x=self.inventory_slot_xy[30][0], y=self.inventory_slot_xy[30][1])
+        self.inventory_slot_30.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_30)
+
+        self.inventory_slot_31 = Slot(
+            self.inventory_frame,
+            number=31,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_31.place(x=self.inventory_slot_xy[31][0], y=self.inventory_slot_xy[31][1])
+        self.inventory_slot_31.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_31)
+
+        self.inventory_slot_32 = Slot(
+            self.inventory_frame,
+            number=32,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_32.place(x=self.inventory_slot_xy[32][0], y=self.inventory_slot_xy[32][1])
+        self.inventory_slot_32.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_32)
+
+        self.inventory_slot_33 = Slot(
+            self.inventory_frame,
+            number=33,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_33.place(x=self.inventory_slot_xy[33][0], y=self.inventory_slot_xy[33][1])
+        self.inventory_slot_33.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_33)
+
+        self.inventory_slot_34 = Slot(
+            self.inventory_frame,
+            number=34,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_34.place(x=self.inventory_slot_xy[34][0], y=self.inventory_slot_xy[34][1])
+        self.inventory_slot_34.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_34)
+
+        self.inventory_slot_35 = Slot(
+            self.inventory_frame,
+            number=35,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_35.place(x=self.inventory_slot_xy[35][0], y=self.inventory_slot_xy[35][1])
+        self.inventory_slot_35.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_35)
+
+        self.inventory_slot_36 = Slot(
+            self.inventory_frame,
+            number=36,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_36.place(x=self.inventory_slot_xy[36][0], y=self.inventory_slot_xy[36][1])
+        self.inventory_slot_36.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_36)
+
+        self.inventory_slot_37 = Slot(
+            self.inventory_frame,
+            number=37,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_37.place(x=self.inventory_slot_xy[37][0], y=self.inventory_slot_xy[37][1])
+        self.inventory_slot_37.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_37)
+
+        self.inventory_slot_38 = Slot(
+            self.inventory_frame,
+            number=38,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_38.place(x=self.inventory_slot_xy[38][0], y=self.inventory_slot_xy[38][1])
+        self.inventory_slot_38.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_38)
+
+        self.inventory_slot_39 = Slot(
+            self.inventory_frame,
+            number=39,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_39.place(x=self.inventory_slot_xy[39][0], y=self.inventory_slot_xy[39][1])
+        self.inventory_slot_39.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_39)
+
+        self.inventory_slot_40 = Slot(
+            self.inventory_frame,
+            number=40,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_40.place(x=self.inventory_slot_xy[40][0], y=self.inventory_slot_xy[40][1])
+        self.inventory_slot_40.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_40)
+
+        self.inventory_slot_41 = Slot(
+            self.inventory_frame,
+            number=41,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_41.place(x=self.inventory_slot_xy[41][0], y=self.inventory_slot_xy[41][1])
+        self.inventory_slot_41.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_41)
+
+        self.inventory_slot_42 = Slot(
+            self.inventory_frame,
+            number=42,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_42.place(x=self.inventory_slot_xy[42][0], y=self.inventory_slot_xy[42][1])
+        self.inventory_slot_42.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_42)
+
+        self.inventory_slot_43 = Slot(
+            self.inventory_frame,
+            number=43,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_43.place(x=self.inventory_slot_xy[43][0], y=self.inventory_slot_xy[43][1])
+        self.inventory_slot_43.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_43)
+
+        self.inventory_slot_44 = Slot(
+            self.inventory_frame,
+            number=44,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_44.place(x=self.inventory_slot_xy[44][0], y=self.inventory_slot_xy[44][1])
+        self.inventory_slot_44.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_44)
+
+        self.inventory_slot_45 = Slot(
+            self.inventory_frame,
+            number=45,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_45.place(x=self.inventory_slot_xy[45][0], y=self.inventory_slot_xy[45][1])
+        self.inventory_slot_45.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_45)
+
+        self.inventory_slot_46 = Slot(
+            self.inventory_frame,
+            number=46,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_46.place(x=self.inventory_slot_xy[46][0], y=self.inventory_slot_xy[46][1])
+        self.inventory_slot_46.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_46)
+
+        self.inventory_slot_47 = Slot(
+            self.inventory_frame,
+            number=47,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_47.place(x=self.inventory_slot_xy[47][0], y=self.inventory_slot_xy[47][1])
+        self.inventory_slot_47.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_47)
+
+        self.inventory_slot_48 = Slot(
+            self.inventory_frame,
+            number=48,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_48.place(x=self.inventory_slot_xy[48][0], y=self.inventory_slot_xy[48][1])
+        self.inventory_slot_48.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_48)
+
+        self.inventory_slot_49 = Slot(
+            self.inventory_frame,
+            number=49,
+            slot_type='inventory',
+            image=self.item_images['empty_slot'],
+            borderwidth=0,
+            highlightthickness=0
+        )
+        self.inventory_slot_49.place(x=self.inventory_slot_xy[49][0], y=self.inventory_slot_xy[49][1])
+        self.inventory_slot_49.bind('<Button-1>', self.inventory_slot_pressed)
+        self.inventory_slots.append(self.inventory_slot_49)
 
     def _update_inventory_slots(self):
-        for i in range(len(self.inventory_slot_grid)):
+        for i in range(len(self.inventory_slots)):
             if i < len(self.hero.inventory.all):
 
                 current_image = (self.hero.inventory.all[i].name).replace(' ', '_')
                 item_name = self.hero.inventory.all[i].name
-                self.inventory_slot_grid[i].configure(image=self.item_images[current_image])
-                self.inventory_slot_grid[i].item_name = item_name
+                self.inventory_slots[i].configure(image=self.item_images[current_image])
+                self.inventory_slots[i].item_name = item_name
 
     def _update_equipment_slots(self):
         pass
 
-    def slot_pressed(self, event):
+    def inventory_slot_pressed(self):
+        pass
+
+    def inventory_slot_pressed(self, event):
         #
         # The last bind is active.
         #
-        if self.inventory_slot_grid[0] == self.inventory_slot_grid[1]:
+        if self.inventory_slots[0] == self.inventory_slots[1]:
             print('what went wrong')
         else:
-            print(vars(self.inventory_slot_grid[0]))
-            print(vars(self.inventory_slot_grid[1]))
+            print(vars(self.inventory_slots[0]))
+            print(vars(self.inventory_slots[1]))
 
     #
     # Debug general methods.
