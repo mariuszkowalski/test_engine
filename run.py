@@ -214,17 +214,25 @@ class Window:
     def build_inventory_debug_buttons(self):
         self._build_inventory_gui_layout()
 
-        self.generate_basic_weapons_button = ttk.Button(self.inventory_debug_tab, text='generate wps')
-        self.generate_basic_weapons_button.place(x=2, y=2)
-        self.generate_basic_weapons_button.bind('<Button-1>', self.debug_generate_weapons)
+        self.generate_basic_weapons_button_1 = ttk.Button(self.inventory_debug_tab, text='generate wps')
+        self.generate_basic_weapons_button_1.place(x=2, y=2)
+        self.generate_basic_weapons_button_1.bind('<Button-1>', self.debug_generate_weapons_1)
+
+        self.generate_basic_weapons_button_2 = ttk.Button(self.inventory_debug_tab, text='generate wps')
+        self.generate_basic_weapons_button_2.place(x=2, y=32)
+        self.generate_basic_weapons_button_2.bind('<Button-1>', self.debug_generate_weapons_2)
 
         self.remove_basic_weapon_button = ttk.Button(self.inventory_debug_tab, text='remove b_a')
         self.remove_basic_weapon_button.place(x=82, y=2)
         self.remove_basic_weapon_button.bind('<Button-1>', self.debug_remove_weapon)
 
-        self.generate_pick_up_item_button = ttk.Button(self.inventory_debug_tab, text='pick up')
-        self.generate_pick_up_item_button.place(x=162, y=2)
-        self.generate_pick_up_item_button.bind('<Button-1>', self.debug_pick_up_item)
+        self.generate_pick_up_item_button_1 = ttk.Button(self.inventory_debug_tab, text='pick up')
+        self.generate_pick_up_item_button_1.place(x=162, y=2)
+        self.generate_pick_up_item_button_1.bind('<Button-1>', self.debug_pick_up_item)
+
+        self.generate_pick_up_item_button_2 = ttk.Button(self.inventory_debug_tab, text='pick up')
+        self.generate_pick_up_item_button_2.place(x=162, y=32)
+        self.generate_pick_up_item_button_2.bind('<Button-1>', self.debug_pick_up_item_by_name)
 
         self.drop_item_button = ttk.Button(self.inventory_debug_tab, text='drop item')
         self.drop_item_button.place(x=242, y=2)
@@ -1059,7 +1067,7 @@ class Window:
     #
     # Debug inventory methods.
     #
-    def debug_generate_weapons(self, event):
+    def debug_generate_weapons_1(self, event):
         basic_weapons = [
             BasicWeapon(**SWORDS['rusty short sword']),
             BasicWeapon(**SWORDS['excellent short sword']),
@@ -1069,6 +1077,17 @@ class Window:
         item_to_move = basic_weapons.pop(rnd(0, 2))
 
         self.hero.inventory.add_to_inventory(item_to_move)
+        print('Weight: {}, Items: {}'.format(self.hero.inventory.total_weight, self.hero.inventory.show_inventory()))
+        self.hero.inventory.show_inventory_all()
+
+    def debug_generate_weapons_2(self, event):
+        basic_weapons = [
+            BasicWeapon(**SWORDS['rusty short sword']),
+            BasicWeapon(**SWORDS['excellent short sword']),
+            BasicWeapon(**AXES['battle axe'])
+        ]
+
+        self.hero.inventory.add_to_inventory_by_name(basic_weapons, 'rusty short sword')
         print('Weight: {}, Items: {}'.format(self.hero.inventory.total_weight, self.hero.inventory.show_inventory()))
         self.hero.inventory.show_inventory_all()
 
@@ -1089,6 +1108,17 @@ class Window:
         item_to_move = basic_weapons.pop(rnd(0, 2))
 
         self.hero.pickup_item(item_to_move)
+        print('Weight: {}, Items: {}'.format(self.hero.inventory.total_weight, self.hero.inventory.show_inventory()))
+        self.hero.inventory.show_inventory_all()
+
+    def debug_pick_up_item_by_name(self, event):
+        basic_weapons = [
+            BasicWeapon(**SWORDS['rusty short sword']),
+            BasicWeapon(**SWORDS['excellent short sword']),
+            BasicWeapon(**AXES['battle axe'])
+        ]
+
+        self.hero.pickup_item_by_name(basic_weapons, 'rusty short sword')
         print('Weight: {}, Items: {}'.format(self.hero.inventory.total_weight, self.hero.inventory.show_inventory()))
         self.hero.inventory.show_inventory_all()
 

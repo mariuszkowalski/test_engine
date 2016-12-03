@@ -34,6 +34,33 @@ class BasicInventory:
             if not increased_quantity:
                 self.all.append(current_item)
 
+    def add_to_inventory_by_name(self, buffer, current_name):
+        '''
+        Adds item with given name to the inventory list.
+
+        Args:
+            buffer: list - contains the buffered items instances.
+            current_name: string - name of the item.
+        '''
+
+        increased_quantity = False
+        for buffered_item in buffer:
+
+            if buffered_item.name == current_name:
+
+                if len(self.all) == 0:
+                    self.all.append(buffered_item)
+
+                elif len(self.all) >= 1:
+
+                    for item in self.all:
+
+                        if buffered_item.name == item.name:
+                            item.quantity += buffered_item.quantity
+                            increased_quantity = True
+
+                    if not increased_quantity:
+                        self.all.append(buffered_item)
 
     def remove_from_inventory(self, current_name):
         '''

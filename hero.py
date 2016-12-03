@@ -2,7 +2,7 @@
 
 
 from basiccharacter import BasicCharacter
-
+import copy
 
 class Hero(BasicCharacter):
 
@@ -141,11 +141,68 @@ class Hero(BasicCharacter):
               item_instance: obj - valid instance of the class derived from the BasicItem class.
         '''
 
-        future_weight = self.inventory.total_weight + item_instance.weight
+        if item_instance.quantity == 1:
 
-        if future_weight < self.carry_max:
-            self.inventory.add_to_inventory(item_instance)
+            future_weight = self.inventory.total_weight + item_instance.weight
 
+            if future_weight < self.carry_max:
+                self.inventory.add_to_inventory(item_instance)
+
+        elif item_instance.quantity >= 2:
+
+            for i in range(item_instance.quantity, 0, -1):
+
+                future_weight = self.inventory.total_weight + item_instance.weight * i
+
+                if future_weight < self.carry_max:
+                    unpicked_part = item_instance.quantity - i
+                    unpicked = copy.deepcopy(item_instance)
+
+                    item_instance.quantity = i
+                    unpicked.quantity = unpicked_part
+                    print(unpicked.quantity)
+                    self.inventory.add_to_inventory(item_instance)
+
+                    break
+
+    def pickup_item_by_name(self, buffer, item_name):
+        '''
+        This method checks what the total weight of the inventory would be after
+        adding another item. If the mass would be less than carry max of the character
+        the item is added to the inventory list.
+
+        Args:
+            buffer: list - contains the buffered valid items instances.
+            item_name: str - name of given item to be moved.
+        '''
+
+        for buffered_item in buffer:
+
+            if buffered_item.name == item_name:
+
+                if buffered_item.quantity == 1:
+
+                    future_weight = self.inventory.total_weight + buffered_item.weight
+
+                    if future_weight < self.carry_max:
+                        self.inventory.add_to_inventory(buffered_item)
+
+                elif buffered_item.quantity >= 2:
+
+                    for i in range(buffered_item.quantity, 0, -1):
+
+                        future_weight = self.inventory.total_weight + buffered_item.weight * i
+
+                        if future_weight < self.carry_max:
+                            unpicked_part = buffered_item.quantity - i
+                            unpicked = copy.deepcopy(buffered_item)
+
+                            buffered_item.quantity = i
+                            unpicked.quantity = unpicked_part
+                            print(unpicked.quantity)
+                            self.inventory.add_to_inventory(buffered_item)
+
+                            break
 
     def drop_item(self, item_name):
         '''
